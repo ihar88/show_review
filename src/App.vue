@@ -13,20 +13,19 @@ export default {
   methods: {
     ...mapActions({
       getShowsAction: types.ACTION_GET_SHOWS,
-      changeAuthValue: types.ACTION_CHANGE_AUTH 
+      getRegistredUsers: types.ACTION_LOAD_USER_DB
     }),
     saveShowsData() {
       getShows().then(data => {
         this.getShowsAction(data);
         saveToLocalStorage("shows", data);
       });
-    },
+    }
   },
   created() {
-    const authValue = Boolean(sessionStorage.getItem("auth"));
-    console.log(authValue);
+    const usersFromLocalStore = JSON.parse(localStorage.getItem("user"));
     this.saveShowsData();
-    this.changeAuthValue(authValue);
+    this.getRegistredUsers(usersFromLocalStore);
   }
 };
 </script>

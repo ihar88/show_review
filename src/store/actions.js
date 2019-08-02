@@ -1,13 +1,14 @@
 import * as types from './types'
-import { setInitialStore, saveToLocalStorage } from '../utils/localStorageUtils'
+import { saveToLocalStorage } from '../utils/localStorageUtils'
 import { saveToSessionStorage } from '../utils/sessionStorageUtils'
 
 export default {
     [types.ACTION_GET_SHOWS]: ({ commit }, payload) => {
-        payload.map(item => {
-            item.show.comments = ['first comment', 'second comment'];
-        })
-        commit(types.MUTATION_GET_SHOWS, payload)
+        const modifiedPayload = payload.map(item => {
+            item.show = { ...item.show, comments: ['first comment', 'second comment'] }
+            return item;
+        });
+        commit(types.MUTATION_GET_SHOWS, modifiedPayload);
     },
     [types.ACTION_ADD_COMMENT]: ({ commit }, payload) => {
         commit(types.MUTATION_ADD_COMMENT, payload);
@@ -19,5 +20,12 @@ export default {
     [types.ACTION_CHANGE_CURRENT_SHOW_ITEM]: ({ commit }, payload) => {
         saveToLocalStorage("currentShowItem", payload);
         commit(types.MUTATION_CHANGE_CURRENT_SHOW_ITEM, payload);
+    },
+    [types.ACTION_SING_UP_USER]: ({ commit,getters }, payload) => {
+        commit(types.MUTATION_SING_UP_USER, payload);
+        saveToLocalStorage("user",getters[types.GETTERS_GET_USER]);
+    },
+    [types.ACTION_LOAD_USER_DB]:({commit},payload)=>{
+        commit(types.MUTATION_LOAD_USER_DB,payload);
     }
 }

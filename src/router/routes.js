@@ -15,7 +15,7 @@ export const routes = [
         name: "ChosenShowItem",
         props: true,
         beforeEnter(to, from, next) {
-            if (!store.state.auth) {
+            if (!store.getters[types.GETTERS_GET_AUTH]) {
                 next('/login')
             }
             next()
@@ -24,6 +24,7 @@ export const routes = [
     {
         path: "/login",
         component: Login,
-        name: "login"
+        name: "login",
+        props:true
     }
 ];

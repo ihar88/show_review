@@ -15,12 +15,11 @@
     <div class="chosenItemComments">
       <h2>Comments</h2>
       <div class="commentsList" v-for="(text,index) in show.comments" :key="index">
-        <p  class="commentsListItem">{{text}}</p>
+        <p class="commentsListItem">{{text}}</p>
       </div>
       <form @submit.prevent="onCommentSubmit">
         <textarea
           style="resize:none"
-          id
           cols="30"
           rows="10"
           placeholder="you can add your comment here"
@@ -48,25 +47,17 @@ export default {
   props: ["thatShow"],
   computed: {
     ...mapGetters({
-      getAuth: types.GETTERS_GET_AUTH,
       getShows: types.GETTERS_GET_SHOWS
     }),
     show() {
       return this.thatShow.show;
     },
-    getCurrentShowItem: {
-      get: () => store.state.currentShowItem,
-      set: fromLocalStore => fromLocalStore
-    },
-    currentShowItemFromLocalStore() {
-      return setInitialStore("currentShowItem", "currentShowItem");
-    },
     schedule() {
-      return `${this.show.schedule.days.join()} ${this.show.schedule.time}`;
+      const { days, time } = this.show.schedule;
+      return `${days.join()} ${time}`;
     },
     filterToFindItem() {
-      const shows = this.getShows;
-      return shows.findIndex(({ id }) => id === this.thatShow.id);
+      return this.getShows.findIndex(({ id }) => id === this.thatShow.id);
     }
   },
   methods: {
@@ -77,24 +68,21 @@ export default {
       this.comment = "";
     },
     onCommentSubmit() {
-      const currentShow = this.filterToFindItem;
-      const payload = { comment: this.comment, indexOfShow: currentShow };
+      const payload = {
+        comment: this.comment,
+        indexOfShow: this.filterToFindItem
+      };
       this.addComment(payload);
       this.clearCommentInput();
     }
   },
   components: {
     Header
-  },
-  created() {
-    if (!this.currentShowItem) {
-      this.currentShowItem = this.currentShowItemFromLocalStore;
-    }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .chosenItemContainer {
   display: flex;
   flex-flow: column;
@@ -137,7 +125,7 @@ h2 {
   margin-bottom: 10px;
 }
 
-.commentsListItem{
+.commentsListItem {
   margin-bottom: 10px;
 }
 </style>

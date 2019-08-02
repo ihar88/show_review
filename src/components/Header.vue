@@ -1,17 +1,16 @@
 <template>
   <div class="container">
-    <h1 class="headerName" @click="goHomePage">Films forum</h1>
+    <h1 class="headerName" @click="goHomePage">Show review</h1>
     <div class="buttonsWraper">
-      <my-auth-button class="authButton" v-if="!getAuth" :onClick="login" buttonType="Login"></my-auth-button>
-      <h4 v-if="getAuth">Igor</h4>
+      <my-auth-button v-if="!getAuth" class="authButton" :onClick="singup" buttonType="SingUp"></my-auth-button>
+      <my-auth-button v-if="!getAuth" class="authButton" :onClick="singin" buttonType="SingIn"></my-auth-button>
     </div>
   </div>
 </template>
 
 <script>
-
 import AuthButton from "./AuthButton";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import * as types from "../store/types";
 
 export default {
@@ -21,8 +20,20 @@ export default {
     })
   },
   methods: {
-    login() {
-      this.$router.push("/login");
+    ...mapActions({
+      singupOnClick: types.ACTION_SING_UP_USER
+    }),
+    singin() {
+      this.$router.push({
+        name: "login",
+        params: { buttonName: "SING IN" }
+      });
+    },
+    singup() {
+      this.$router.push({
+        name: "login",
+        params: { buttonName: "SING UP", onClick: this.singupOnClick }
+      });
     },
     goHomePage() {
       this.$router.push("/");
@@ -34,7 +45,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
   display: flex;
   flex-flow: row nowrap;

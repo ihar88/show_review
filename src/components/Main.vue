@@ -14,9 +14,6 @@ export default {
   components: {
     Header,
     ListOfShows
-  }
+  },
 };
 </script>
-
-<style>
-</style>

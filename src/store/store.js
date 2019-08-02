@@ -10,10 +10,7 @@ export default new Vuex.Store({
     state: {
         shows: null,
         auth: false,
-        user: {
-            name: 'igor',
-            password: 'kliuchnik'
-        },
+        user: [],
         currentShowItem: null,
     },
     getters,

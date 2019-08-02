@@ -14,7 +14,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .showItemContainer {
   display: flex;
   flex-flow: column;

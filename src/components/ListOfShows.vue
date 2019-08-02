@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .listOfShowsContainer {
   display: flex;
   flex-flow: row wrap;
